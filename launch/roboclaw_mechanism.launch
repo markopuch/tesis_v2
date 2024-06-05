@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="dev" default="/dev/ttyACM2"/>
+    <arg name="baud" default="115200"/>
+    <arg name="address" default="128"/>
+    <arg name="speed" default="3000"/>
+    <arg name="run_diag" default="true"/>
+
+    <node if="$(arg run_diag)" pkg="roboclaw_node" type="roboclaw_mechanism.py" name="roboclaw_mechanism">
+        <param name="~dev" value="$(arg dev)"/>
+        <param name="~baud" value="$(arg baud)"/>
+        <param name="~address" value="$(arg address)"/>
+        <param name="~speed" value="$(arg speed)"/>
+    </node>
+
+
+</launch>
