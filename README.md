@@ -3,6 +3,9 @@ This repository contains code and instructions for the development of an autonom
 
 ## STATUS:
 all the sensors works well. However, when using roboclaw drivers, I still don't know how to differentiate between the wheels drivers and mechanism drivers.
+```bash
+dmesg | grep tty
+```
 
 ## Roboclaw 
 
@@ -18,14 +21,24 @@ For using the BNO055 IMU sensor with ROS, follow this tutorial: [How to Publish 
 For using a UBLOX GPS receiver with ROS Kinetic, follow this tutorial: [nmea_navsat_driver](http://wiki.ros.org/nmea_navsat_driver). use melodic branch. 
 
 ## USB CAM
-Just run this command. The repository [usb_cam]( http://wiki.ros.org/usb_cam) has been having issues to build. 
+Just run this command. 
 
 ```bash
 sudo apt install ros-melodic-usb-cam
+ls /dev | greo video
+sudo apt install ros-melodic-perception
 ```
+The repository [usb_cam]( http://wiki.ros.org/usb_cam) has been having issues to build. 
 
+## paquete_prueba:
+
+```bash
+catkin_create_pkg beach_cleaner rospy roscpp usb_cam std_msgs image_transport cv_bridge sensor_msgs geometry_msgs
+```
 ## BEACH CLEANER ROBOT:
+
 Don't forget to build your workspace and to update your .bashrc 
+
 ```bash
 catkin_make
 ```
@@ -47,4 +60,22 @@ To control the robot using a twist message publisher on your computer, run:
 
 ```
 roslaunch teleoperation teleop_key.launch
+```
+
+## EXTRAS:
+
+Maybe this forum could help you to enable permission of serial ports
+
+https://unix.stackexchange.com/questions/25258/ttyusb0-permission-changes-after-restart
+
+```bash
+cd etc/udev/rules.d
+sudo nano my-newrule.rules
+
+KERNEL=="ttyACM0", MODE="0666"
+KERNEL=="ttyACM1", MODE="0666"
+KERNEL=="ttyACM2", MODE="0666"
+KERNEL=="ttyUSB0", MODE="0666"
+
+sudo reboot
 ```
