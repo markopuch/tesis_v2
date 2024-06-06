@@ -18,7 +18,7 @@ For using the BNO055 IMU sensor with ROS, follow this tutorial: [How to Publish 
 
 ## GPS UBLOX
 
-For using a UBLOX GPS receiver with ROS Kinetic, follow this tutorial: [nmea_navsat_driver](http://wiki.ros.org/nmea_navsat_driver). use melodic branch. 
+For using a UBLOX GPS receiver with ROS Melodic, follow this tutorial: [nmea_navsat_driver](http://wiki.ros.org/nmea_navsat_driver). use melodic branch. 
 
 ## USB CAM
 Just run this command. 
