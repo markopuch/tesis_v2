@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-from math import pi, cos, sin
 import rospy
-import tf
+import numpy as np
 from std_msgs.msg import Bool
 import roboclaw_driver.roboclaw_driver as roboclaw
 
@@ -10,8 +9,10 @@ class Suscriptor_confirmation(object):
         topic = 'bottle_confirmation'
         self.sub = rospy.Subscriber(topic, Bool, self.callback_point)
         self.sub_msg = Bool()
+        
     def callback_point(self, msg):
         self.sub_msg = msg
+        
     def activation_mechanism(self,SPEED):
         bool_confirmation = self.sub_msg.data
         print(bool_confirmation)
@@ -30,16 +31,18 @@ class Suscriptor_confirmation(object):
 
 
 if __name__ == "__main__":
+    
     try:
-        rospy.init_node('node_roboclaw') # Inicializar el nodo
-
-        #data=open("/home/utec/datar.txt","w")
+        rospy.init_node('node_roboclaw_mechanism') # Inicializar el nodo
 
         rospy.loginfo("Connecting to roboclaw")
         baud_rate = int(rospy.get_param("~baud", "115200"))
         address = int(rospy.get_param("~address", "128"))
-        dev_name = rospy.get_param("~dev", "/dev/ttyACM0")
-        SPEED = int(rospy.get_param("~speed", "2500")) #ticks/sec
+        dev_name = rospy.get_param("~dev", "/dev/ttyACM2")
+        SPEED = int(rospy.get_param("~speed", "3000")) #ticks/sec
+        
+        path = "/home/utec/data_mechanism.txt"
+        data=open(path,"w")
         
         if address > 0x87 or address < 0x80:
             rospy.logfatal("Address out of range")
@@ -75,9 +78,6 @@ if __name__ == "__main__":
         rospy.logdebug("dev %s", dev_name)
         rospy.logdebug("baud %d", baud_rate)
         rospy.logdebug("address %d", address)
-        print("dev %s", dev_name)
-        print("baud %d", baud_rate)
-        print("address %d", address)
         
         #ubscribe cmd_vel
         sub = Suscriptor_confirmation()# Crear el suscriptor
@@ -85,8 +85,8 @@ if __name__ == "__main__":
         #INIT
         rospy.loginfo("Starting motor drive")
         rate = rospy.Rate(100)
-        #t=0.0
-        #dt=1.0/100
+        t=0.0
+        dt=1.0/100
         while not rospy.is_shutdown():
 
             enc1 = None
@@ -116,12 +116,12 @@ if __name__ == "__main__":
 
             sub.activation_mechanism(SPEED)            
             
-            #data.write(str(t)+' '+str(speed1[1])+' '+str(SPEED)+'\n')
+            data.write(str(t)+' '+str(speed1[1])+' '+str(SPEED)+'\n')
             #wait
-            #t=t+dt
+            t=t+dt
             rate.sleep()
 
-        #data.close()
+        data.close()
 
     except rospy.ROSInterruptException:
         pass

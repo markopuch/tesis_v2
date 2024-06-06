@@ -1,9 +1,7 @@
 #!/usr/bin/env python
-from math import pi, cos, sin
 import rospy
-import tf
-from geometry_msgs.msg import Quaternion, Twist
-from nav_msgs.msg import Odometry
+import numpy as np
+from geometry_msgs.msg import Twist
 import roboclaw_driver.roboclaw_driver as roboclaw
 
 class Publisher_roboclawvel():
@@ -50,20 +48,24 @@ class Suscriptor_cmdvel(object):
             rospy.logwarn("SpeedM1M2 OSError: %d", e.errno)
             rospy.logdebug(e)
 
-        return vr,vl,vr_ticks,vl_ticks
+        return vr_ticks,vl_ticks
 
 if __name__ == "__main__":
 
     try:
-        rospy.init_node('node_roboclaw') # Inicializar el nodo
-
-        #data=open("/home/utec/datar.txt","w")
+        rospy.init_node('node_roboclaw_wheels') # Inicializar el nodo
 		
         rospy.loginfo("Connecting to roboclaw")
         baud_rate = int(rospy.get_param("~baud", "115200"))
         address = int(rospy.get_param("~address", "128"))
         dev_name = rospy.get_param("~dev", "/dev/ttyACM0")
+        
+        if "tty" in dev_name:
+            device_port = dev_name.split("tty")[1]
 
+        path = f"/home/utec/data_{device_port}.txt"
+        data=open(path,"w")
+        
         if address > 0x87 or address < 0x80:
                 rospy.logfatal("Address out of range")
                 rospy.signal_shutdown("Address out of range")
@@ -94,8 +96,8 @@ if __name__ == "__main__":
         roboclaw.ResetEncoders(address)
 
         #VALUES KINEMATIC
-        MAX_SPEED = float(rospy.get_param("~max_speed", "2.0"))
-        TICKS_PER_METER = float(rospy.get_param("~tick_per_meter", "4342.2"))
+        MAX_SPEED = float(rospy.get_param("~max_speed", "1.0"))
+        TICKS_PER_METER = float(rospy.get_param("~tick_per_meter", "24844,8"))
         BASE_WIDTH = float(rospy.get_param("~base_width", "0.315"))
 
         rospy.sleep(1)
@@ -106,13 +108,7 @@ if __name__ == "__main__":
         rospy.logdebug("max_speed %f", MAX_SPEED)
         rospy.logdebug("ticks_per_meter %f", TICKS_PER_METER)
         rospy.logdebug("base_width %f", BASE_WIDTH)
-        print("dev %s", dev_name)
-        print("baud %d", baud_rate)
-        print("address %d", address)
-        print("max_speed %f", MAX_SPEED)
-        print("ticks_per_meter %f", TICKS_PER_METER)
-        print("base_width %f", BASE_WIDTH)
-
+        
         #subscribe cmd_vel
         sub_cmdvel = Suscriptor_cmdvel() 
 
@@ -178,17 +174,17 @@ if __name__ == "__main__":
 
             #print(sub_cmdvel.update_cmd_vel(MAX_SPEED,BASE_WIDTH,TICKS_PER_METER))
 
-            #_,_,vr_ticks,vl_ticks= sub_cmdvel.update_cmd_vel(MAX_SPEED,BASE_WIDTH,TICKS_PER_METER)
-            sub_cmdvel.update_cmd_vel(MAX_SPEED,BASE_WIDTH,TICKS_PER_METER)
+            vr_ticks,vl_ticks= sub_cmdvel.update_cmd_vel(MAX_SPEED,BASE_WIDTH,TICKS_PER_METER)
+            #sub_cmdvel.update_cmd_vel(MAX_SPEED,BASE_WIDTH,TICKS_PER_METER)
 
-            #data.write(str(t)+' '+str(speed1[1])+' '+str(speed2[1])+' '+str(vr_ticks)+' '+str(vl_ticks)+'\n')
+            data.write(str(t)+' '+str(speed1[1])+' '+str(speed2[1])+' '+str(vl_ticks)+' '+str(vr_ticks)+'\n')
             #wait
-            #t=t+dt
+            t=t+dt
             
 
             rate.sleep()
 
-        #data.close()
+        data.close()
 
     except rospy.ROSInterruptException: 
         pass
