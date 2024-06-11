@@ -39,7 +39,6 @@ def detection(I,kernel=35,th=140,kernel2=7,iter=5):
 	_,bw = cv2.threshold(mask_roi, th, 255, cv2.THRESH_BINARY)
 	k=np.ones((kernel2, kernel2), np.uint8)
 	erode = cv2.erode(bw, k, iterations=iter) 
-	
 	return erode
 
 def bottle_confirmed(I,count_ones,count_zeros,start_time):
@@ -71,7 +70,7 @@ def bottle_confirmed(I,count_ones,count_zeros,start_time):
 if __name__ == '__main__':
 
 	# Inicializar el nodo de ROS
-	rospy.init_node('camera_node_move')
+	rospy.init_node('camera_node_image_proccesing')
 
 	# Objeto que se suscribe al topico de la camara
 	topic_name = '/camera/rgb/image_raw'
@@ -116,7 +115,7 @@ if __name__ == '__main__':
 			cv2.waitKey(1)
 			
 			# Opcional: publicar la imagen de salida como tópico de ROS
-			pubimg.publish(cam.bridge.cv2_to_imgmsg(I,"bgr8"))
+			pubimg.publish(cam.bridge.cv2_to_imgmsg(I,"mono8"))
 		
 		# Publicar el mensaje
 		pub.publish(pub_msg)
