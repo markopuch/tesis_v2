@@ -4,10 +4,10 @@ import numpy as np
 from geometry_msgs.msg import Twist
 import roboclaw_driver.roboclaw_driver as roboclaw
 
-class Publisher_roboclawvel():
-    def __init__(self):
-        topic='roboclaw_vel'
-        self.pub=rospy.Publisher(topic,Twist,queue_size=1)
+#class Publisher_roboclawvel():
+#    def __init__(self):
+#        topic='roboclaw_vel'
+#        self.pub=rospy.Publisher(topic,Twist,queue_size=1)
 
 class Suscriptor_cmdvel(object):
     def __init__(self):
@@ -60,10 +60,10 @@ if __name__ == "__main__":
         address = int(rospy.get_param("~address", "128"))
         dev_name = rospy.get_param("~dev", "/dev/ttyACM0")
         
-        if "tty" in dev_name:
-            device_port = dev_name.split("tty")[1]
+        device_port = dev_name.split("tty")[1]
 
-        path = f"/home/utec/data_{device_port}.txt"
+        path = "/home/utec/data_"
+        path = path + f"{device_port}"+ ".txt"
         data=open(path,"w")
         
         if address > 0x87 or address < 0x80:

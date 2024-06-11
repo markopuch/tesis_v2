@@ -11,7 +11,7 @@ if not cam.isOpened():
 # Obtener el ancho y alto de los fotogramas de la cámara
 frame_width = int(cam.get(3))
 frame_height = int(cam.get(4))
-
+print(frame_width,frame_height)
 # Definir el codec y crear el objeto VideoWriter
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 timestamp = time.strftime("%Y%m%d_%H%M%S")

@@ -38,7 +38,7 @@ if __name__ == "__main__":
             position_covariance = gps_data.position_covariance
             
             # Escribir los datos en el archivo
-            data.write(f"{t} {latitude} {longitude} {altitude} "
+            data.write(f"{t} {gps_data.header.stamp} {latitude} {longitude} {altitude} "
                        f"{position_covariance[0]} {position_covariance[1]} {position_covariance[2]} "
                        f"{position_covariance[3]} {position_covariance[4]} {position_covariance[5]} "
                        f"{position_covariance[6]} {position_covariance[7]} {position_covariance[8]}\n")

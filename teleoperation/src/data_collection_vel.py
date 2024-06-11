@@ -24,7 +24,7 @@ class Suscriptor_vel(object):
         self.vel_msg = msg
 
     def get_cmd_vel(self):
-        return self.vel_msg.twist
+        return self.vel_msg.twist, self.vel_msg.header.stamp
 
 if __name__ == "__main__":
     
@@ -46,9 +46,9 @@ if __name__ == "__main__":
         while not rospy.is_shutdown():
                   
             cmd= sub_cmdvel.get_cmd_vel()
-            vel = sub_vel.get_cmd_vel()
+            vel,time_stamp_vel = sub_vel.get_cmd_vel()
             print(t, cmd.linear.x, cmd.angular.z, vel.linear.x, vel.angular.z)
-            data.write(str(t)+str(cmd.linear.x)+' '+str(cmd.angular.z)+' '+str(vel.linear.x)+' '+str(vel.angular.z)+'\n')
+            data.write(str(t)+str(cmd.linear.x)+' '+str(cmd.angular.z)+' '+str(vel.linear.x)+' '+str(vel.angular.z)+str(time_stamp_vel)+'\n')
             #wait
             t=t+dt
             rate.sleep()
