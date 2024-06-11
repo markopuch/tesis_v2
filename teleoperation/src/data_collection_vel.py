@@ -48,7 +48,7 @@ if __name__ == "__main__":
             cmd= sub_cmdvel.get_cmd_vel()
             vel,time_stamp_vel = sub_vel.get_cmd_vel()
             print(t, cmd.linear.x, cmd.angular.z, vel.linear.x, vel.angular.z)
-            data.write(str(t)+str(cmd.linear.x)+' '+str(cmd.angular.z)+' '+str(vel.linear.x)+' '+str(vel.angular.z)+str(time_stamp_vel)+'\n')
+            data.write(str(t)+str(time_stamp_vel)+str(cmd.linear.x)+' '+str(cmd.angular.z)+' '+str(vel.linear.x)+' '+str(vel.angular.z)+'\n')
             #wait
             t=t+dt
             rate.sleep()

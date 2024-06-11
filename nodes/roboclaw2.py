@@ -41,7 +41,7 @@ class Suscriptor_cmdvel(object):
                 roboclaw.ForwardM1(address, 0)
                 roboclaw.ForwardM2(address, 0)
             else:
-                roboclaw.SpeedM1M2(address,vr_ticks, vl_ticks)
+                roboclaw.SpeedM1M2(address,vl_ticks, vr_ticks)
                 #roboclaw.SpeedAccelM1M2(address,5000,vr_ticks, vl_ticks)
 
         except OSError as e:
