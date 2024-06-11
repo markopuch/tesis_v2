@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import rospy
 import cv2
 import numpy as np
@@ -48,7 +48,9 @@ def bottle_confirmed(I,count_ones,count_zeros,start_time):
         count_zeros = 0
         msg=True
         start_time = None
+        flag=1
     else:
+        flag=0
         if count_ones != 0:  # ajusta estos números según tus necesidades
             count_zeros += 1
             msg=True
@@ -64,7 +66,7 @@ def bottle_confirmed(I,count_ones,count_zeros,start_time):
             msg=False
             count_zeros = 0
     
-    return msg,count_ones,count_zeros,start_time
+    return msg,count_ones,count_zeros,start_time,flag
         
 
 if __name__ == '__main__':
@@ -72,6 +74,9 @@ if __name__ == '__main__':
 	# Inicializar el nodo de ROS
 	rospy.init_node('camera_node_image_proccesing')
 
+	path = "/home/utec/data_bottle.txt"
+	data = open(path, "w")
+ 
 	# Objeto que se suscribe al topico de la camara
 	topic_name = '/camera/rgb/image_raw'
 	cam = Cam(topic_name)
@@ -86,6 +91,7 @@ if __name__ == '__main__':
 	# Creacion de una instancia (vacia) del mensaje
 	pub_msg = Bool()
 	pub_msg.data=False
+	flag=0
 	# Inicializar el contador de unos y ceros
 	count_ones = 0
 	count_zeros = 0
@@ -95,21 +101,25 @@ if __name__ == '__main__':
 	# Frecuencia del bucle principal
 	freq = 10
 	rate = rospy.Rate(freq)
- 
+	t=0.0
+	dt=1.0/freq
 	# Bucle principal
 	while not rospy.is_shutdown():
-	
+		timestamp = time.strftime("%H%M%S")
 		# Obtener la imagen del tópico de ROS en formato de OpenCV
 		I = cam.get_image()
 		
 		if len(I.shape) == 3 and I.shape[2] == 3:
 			# Realizar algún tipo de procesamiento sobre la imagen
 			I=detection(I)
-			pub_msg.data,count_ones,count_zeros,start_time=bottle_confirmed(I,count_ones,count_zeros,start_time)
+			pub_msg.data,count_ones,count_zeros,start_time,flag=bottle_confirmed(I,count_ones,count_zeros,start_time)
 			# publicar la imagen de salida como tópico de ROS
 			pubimg.publish(cam.bridge.cv2_to_imgmsg(I,"mono8"))
 		
+		data.write(str(t)+' '+str(timestamp)+' '+str(pub_msg.data)+' '+str(flag)+'\n')
 		# Publicar el mensaje
 		pub.publish(pub_msg)
-
+		t=t+dt
 		rate.sleep()
+  
+	data.close()
