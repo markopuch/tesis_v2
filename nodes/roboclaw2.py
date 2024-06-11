@@ -3,6 +3,7 @@ import rospy
 import numpy as np
 from geometry_msgs.msg import Twist
 import roboclaw_driver.roboclaw_driver as roboclaw
+import time
 
 #class Publisher_roboclawvel():
 #    def __init__(self):
@@ -125,7 +126,8 @@ if __name__ == "__main__":
         dt=1.0/100
 
         while not rospy.is_shutdown():
-
+            timestamp = time.strftime("%H%M%S")
+            
             enc1 = None
             enc2 = None
 
@@ -177,7 +179,7 @@ if __name__ == "__main__":
             vr_ticks,vl_ticks= sub_cmdvel.update_cmd_vel(MAX_SPEED,BASE_WIDTH,TICKS_PER_METER)
             #sub_cmdvel.update_cmd_vel(MAX_SPEED,BASE_WIDTH,TICKS_PER_METER)
 
-            data.write(str(t)+' '+str(speed1[1])+' '+str(speed2[1])+' '+str(vl_ticks)+' '+str(vr_ticks)+'\n')
+            data.write(str(t)+' '+str(timestamp)+' '+str(speed1[1])+' '+str(speed2[1])+' '+str(vl_ticks)+' '+str(vr_ticks)+'\n')
             #wait
             t=t+dt
             

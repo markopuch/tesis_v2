@@ -3,6 +3,7 @@ import rospy
 import numpy as np
 from std_msgs.msg import Bool
 import roboclaw_driver.roboclaw_driver as roboclaw
+import time
 
 class Suscriptor_confirmation(object):
     def __init__(self):
@@ -88,7 +89,8 @@ if __name__ == "__main__":
         t=0.0
         dt=1.0/100
         while not rospy.is_shutdown():
-
+            timestamp = time.strftime("%H%M%S")
+            
             enc1 = None
 
             try:
@@ -116,7 +118,7 @@ if __name__ == "__main__":
 
             sub.activation_mechanism(SPEED)            
             
-            data.write(str(t)+' '+str(speed1[1])+' '+str(SPEED)+'\n')
+            data.write(str(t)+' '+str(timestamp)+' '+str(speed1[1])+' '+str(SPEED)+'\n')
             #wait
             t=t+dt
             rate.sleep()
