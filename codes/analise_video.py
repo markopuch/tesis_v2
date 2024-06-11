@@ -34,13 +34,12 @@ if not cap.isOpened():
 fps = cap.get(cv2.CAP_PROP_FPS)
 wait_time = int(1000 / fps)
 
-frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+# Inicializar el contador de unos y ceros
+count_ones = 0
+count_zeros = 0
 
-# Crear un objeto VideoWriter
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('output.avi', fourcc, fps, (frame_width, frame_height))
-
+# Inicializar la variable de tiempo de inicio
+start_time = None
 
 while True:
     ret, frame = cap.read()
@@ -65,23 +64,18 @@ while True:
         if count_ones != 0:  # ajusta estos números según tus necesidades
             count_zeros += 1
             msg=True
-            
             if start_time is None:
-                start_time = time.time()
-                
+                start_time = time.time()   
             elif time.time() - start_time > 3:
                 msg=False
                 start_time = None
                 count_ones = 0
                 count_zeros = 0
-            
         else:
             start_time = None
             msg=False
             count_zeros = 0
         
-    # Escribir el frame procesado en el archivo de salida
-    out.write(processed_frame)
     
     # Mostrar el frame procesado en otra ventana
     cv2.imshow('Procesado', processed_frame)
@@ -92,6 +86,5 @@ while True:
 
 # Liberar el objeto de captura y cerrar las ventanas
 cap.release()
-out.release()
 cv2.destroyAllWindows()
 
