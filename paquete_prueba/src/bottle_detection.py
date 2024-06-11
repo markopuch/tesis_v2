@@ -105,21 +105,11 @@ if __name__ == '__main__':
 		if len(I.shape) == 3 and I.shape[2] == 3:
 			# Realizar algún tipo de procesamiento sobre la imagen
 			I=detection(I)
-
-			# Mostrar la imagen con el rectángulo dibujado
-			cv2.imshow("Bottella detectada", I)
-
 			pub_msg.data,count_ones,count_zeros,start_time=bottle_confirmed(I,count_ones,count_zeros,start_time)
-   
-			# Esperar al bucle para actualizar
-			cv2.waitKey(1)
-			
-			# Opcional: publicar la imagen de salida como tópico de ROS
+			# publicar la imagen de salida como tópico de ROS
 			pubimg.publish(cam.bridge.cv2_to_imgmsg(I,"mono8"))
 		
 		# Publicar el mensaje
 		pub.publish(pub_msg)
 
 		rate.sleep()
-	
-cv2.destroyAllWindows()

@@ -80,11 +80,11 @@ if __name__ == '__main__':
 			# Convertir a escala de HSV
 			I=detection(I)
 
-			# Mostrar la imagen con el rectángulo dibujado
-			cv2.imshow("Lata de gaseosa detectada", I)
+			# # Mostrar la imagen con el rectángulo dibujado
+			# cv2.imshow("Lata de gaseosa detectada", I)
 
-			# Esperar al bucle para actualizar
-			cv2.waitKey(1)
+			# # Esperar al bucle para actualizar
+			# cv2.waitKey(1)
 			
 			# Opcional: publicar la imagen de salida como tópico de ROS
 			pubimg.publish(cam.bridge.cv2_to_imgmsg(I,"bgr8"))
@@ -92,4 +92,4 @@ if __name__ == '__main__':
 
 		rate.sleep()
 	
-cv2.destroyAllWindows()
+# cv2.destroyAllWindows()

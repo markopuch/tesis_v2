@@ -37,8 +37,6 @@ if __name__ == '__main__':
             print("Fin del video")
             break
         else:
-            # Mostrar el frame en una ventana
-            #cv2.imshow('Video', frame)
             
             if len(frame.shape) == 3 and frame.shape[2] == 3:
                 try:
@@ -46,7 +44,5 @@ if __name__ == '__main__':
                 except CvBridgeError as e:
                     print(e)
 
-            # Esperar al bucle para actualizar
-            #cv2.waitKey(1)
    
         rate.sleep()
