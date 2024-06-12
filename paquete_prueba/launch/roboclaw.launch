@@ -5,7 +5,7 @@
     <arg name="dev1" default="/dev/ttyACM1"/>
     <arg name="baud" default="115200"/>
     <arg name="address" default="128"/>
-    <arg name="max_speed" default="1.0"/>
+    <arg name="max_speed" default="0.4"/>
     <arg name="ticks_per_meter" default="24844.8"/>
     <arg name="base_width" default="0.315"/>
     <arg name="run_diag" default="true"/>
