@@ -12,7 +12,7 @@ if __name__ == '__main__':
     
     bridge = CvBridge()
     # Tópico para publicar una imagen de salida
-    topic_pub = '/camera/rgb/image_raw'
+    topic_pub = '/usb_cam/image_raw'
     pubimg = rospy.Publisher(topic_pub, Image, queue_size=10)
 
     # Nombre del archivo de video
@@ -42,6 +42,7 @@ if __name__ == '__main__':
                 try:
                     pubimg.publish(bridge.cv2_to_imgmsg(frame, "bgr8"))
                 except CvBridgeError as e:
+                    rospy.logdebug(e)
                     print(e)
 
    

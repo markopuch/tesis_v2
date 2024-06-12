@@ -17,6 +17,7 @@ class Cam(object):
 		try:
 			self.image = self.bridge.imgmsg_to_cv2(img, "bgr8")
 		except CvBridgeError as e:
+			rospy.logdebug(e)
 			print(e)
 
 	def get_image(self):
@@ -78,7 +79,7 @@ if __name__ == '__main__':
 	data = open(path, "w")
  
 	# Objeto que se suscribe al topico de la camara
-	topic_name = '/camera/rgb/image_raw'
+	topic_name = '/usb_cam/image_raw'
 	cam = Cam(topic_name)
 
 	# Tópico para publicar una imagen de salida
@@ -104,17 +105,21 @@ if __name__ == '__main__':
 	t=0.0
 	dt=1.0/freq
 	# Bucle principal
+	rospy.logdebug("Starting image processing node")
 	while not rospy.is_shutdown():
 		timestamp = time.strftime("%H%M%S")
 		# Obtener la imagen del tópico de ROS en formato de OpenCV
 		I = cam.get_image()
-		
-		if len(I.shape) == 3 and I.shape[2] == 3:
-			# Realizar algún tipo de procesamiento sobre la imagen
-			I=detection(I)
-			pub_msg.data,count_ones,count_zeros,start_time,flag=bottle_confirmed(I,count_ones,count_zeros,start_time)
-			# publicar la imagen de salida como tópico de ROS
-			pubimg.publish(cam.bridge.cv2_to_imgmsg(I,"mono8"))
+		try:
+			if len(I.shape) == 3 and I.shape[2] == 3:
+				# Realizar algún tipo de procesamiento sobre la imagen
+				I=detection(I)
+				pub_msg.data,count_ones,count_zeros,start_time,flag=bottle_confirmed(I,count_ones,count_zeros,start_time)
+				# publicar la imagen de salida como tópico de ROS
+				pubimg.publish(cam.bridge.cv2_to_imgmsg(I,"mono8"))
+		except CvBridgeError as e:
+			rospy.logdebug(e)
+			print(e)
 		
 		data.write(str(t)+' '+str(timestamp)+' '+str(pub_msg.data)+' '+str(flag)+'\n')
 		# Publicar el mensaje

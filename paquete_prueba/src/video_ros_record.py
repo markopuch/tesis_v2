@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import rospy
 import cv2
 import numpy as np
@@ -16,6 +16,7 @@ class Cam(object):
         try:
             self.image = self.bridge.imgmsg_to_cv2(img, "bgr8")
         except CvBridgeError as e:
+            rospy.logdebug(e)
             print(e)
             
     def get_image(self):
@@ -26,8 +27,12 @@ if __name__ == '__main__':
     rospy.init_node('camera_node_1')
     
     # Objeto que se suscribe al topico de la camara
-    topic_name = '/camera/rgb/image_raw'
+    topic_name = '/usb_cam/image_raw'
     cam = Cam(topic_name)
+    
+    # Objeto que se suscribe al topico de la imagen procesada
+    topic_name2 = '/image_proccesed'
+    imgprocces = Cam(topic_name2)
     
     # Definir el objeto VideoWriter
     # Obtener el ancho y alto de los fotogramas de la cámara
@@ -36,22 +41,29 @@ if __name__ == '__main__':
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     timestamp = time.strftime("%Y%m%d_%H%M%S")
     out = cv2.VideoWriter(f'video_{timestamp}.avi', fourcc, 20.0, (frame_width, frame_height))
-
+    out2 = cv2.VideoWriter(f'videoprocessed_{timestamp}.avi', fourcc, 20.0, (frame_width, frame_height))
 
     # Frecuencia del bucle principal
     freq = 10
     rate = rospy.Rate(freq)
 
     # Bucle principal
+    rospy.logdebug("Starting recording node")
     while not rospy.is_shutdown():
         I = cam.get_image()
+        I2=imgprocces.get_image()
         
         if len(I.shape) == 3 and I.shape[2] == 3:
-            try:
-                # Escribir el frame en el archivo de video
-                out.write(I)
-            except CvBridgeError as e:
-                print(e)
+            if len(I2.shape) == 3 and I2.shape[2] == 3:
+                try:
+                    # Escribir el frame en el archivo de video
+                    out.write(I)
+                    # Escribir el frame en el archivo de video
+                    out2.write(I2)
+                    
+                except CvBridgeError as e:
+                    rospy.logdebug(e)
+                    print(e)
         
         rate.sleep()
     # Liberar el objeto VideoWriter al final
