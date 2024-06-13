@@ -30,10 +30,6 @@ if __name__ == '__main__':
     topic_name = '/usb_cam/image_raw'
     cam = Cam(topic_name)
     
-    # Objeto que se suscribe al topico de la imagen procesada
-    topic_name2 = '/image_proccesed'
-    imgprocces = Cam(topic_name2)
-    
     # Definir el objeto VideoWriter
     # Obtener el ancho y alto de los fotogramas de la camara
     frame_width = 1920
@@ -50,7 +46,6 @@ if __name__ == '__main__':
     rospy.logdebug("Starting recording node")
     while not rospy.is_shutdown():
         I = cam.get_image()
-        I2=imgprocces.get_image()
         
         if len(I.shape) == 3 and I.shape[2] == 3:
             try:
