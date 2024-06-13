@@ -16,7 +16,7 @@ class SuscriptorImu(object):
 
 if __name__ == "__main__":
     try:
-        rospy.init_node('node_datacollection_imu')  # Inicializar el nodo
+        rospy.init_node('node_datacollection_imu_pc')  # Inicializar el nodo
         
         path = "/home/utec/data_imu.txt"
         data = open(path, "w")

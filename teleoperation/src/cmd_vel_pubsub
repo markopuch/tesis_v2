@@ -17,7 +17,7 @@ class Suscriptor_cmdvel(object):
 
 if __name__ == "__main__": # Inicio del programa principal
 
-    rospy.init_node('nodo_pub_sub_cmd') # Inicializar el nodo
+    rospy.init_node('nodo_pub_sub_cmd_pc') # Inicializar el nodo
     sub = Suscriptor_cmdvel() # Crear el suscriptor
 
     # Declarar del publicador

@@ -1,3 +1,5 @@
+<?xml version="1.0"?>
+
 <launch>
   <!-- WHEELS -->
   <include file="$(find roboclaw_node)/launch/roboclaw.launch"/>
@@ -15,7 +17,7 @@
   <include file="$(find paquete_prueba)/launch/usb_cam_test.launch"/>
 
   <!-- DATA COLLECTION -->
-  <!-- <include file="$(find teleoperation)/launch/data_collection.launch"/> -->
+  <include file="$(find teleoperation)/launch/data_collection.launch"/>
 
   <!-- DETECTION AND RECORDING-->
   <include file="$(find paquete_prueba)/launch/bottle_detection.launch"/>

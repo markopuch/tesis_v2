@@ -29,7 +29,7 @@ class Suscriptor_vel(object):
 if __name__ == "__main__":
     
     try:
-        rospy.init_node('node_datacollection_vel') # Inicializar el nodo
+        rospy.init_node('node_datacollection_vel_pc') # Inicializar el nodo
         
         path = "/home/utec/data_vel.txt"
         data=open(path,"w")
