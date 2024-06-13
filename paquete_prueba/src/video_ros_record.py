@@ -53,14 +53,12 @@ if __name__ == '__main__':
         I2=imgprocces.get_image()
         
         if len(I.shape) == 3 and I.shape[2] == 3:
-            if len(I2.shape) == 3 and I2.shape[2] == 3:
-                try:
-                    # Escribir el frame en el archivo de video
-                    out.write(I)
-                    
-                except CvBridgeError as e:
-                    rospy.logdebug(e)
-                    print(e)
+            try:
+                # Escribir el frame en el archivo de video
+                out.write(I)
+                
+            except CvBridgeError as e:
+                rospy.logdebug(e)
         
         rate.sleep()
     # Liberar el objeto VideoWriter al final
