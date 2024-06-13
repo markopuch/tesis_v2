@@ -39,10 +39,10 @@ if __name__ == "__main__":
             linear_acceleration = imu_data.linear_acceleration
             
             # Escribir los datos en el archivo
-            data.write(f"{t} {imu_data.header.stamp} "
-                       f"{orientation.x} {orientation.y} {orientation.z} {orientation.w} "
-                       f"{angular_velocity.x} {angular_velocity.y} {angular_velocity.z} "
-                       f"{linear_acceleration.x} {linear_acceleration.y} {linear_acceleration.z}\n")
+            data.write(str(t) + ' ' + str(imu_data.header.stamp) + ' ' +
+                       str(orientation.x) + ' ' + str(orientation.y) + ' ' + str(orientation.z) + ' ' + str(orientation.w) + ' ' +
+                       str(angular_velocity.x) + ' ' + str(angular_velocity.y) + ' ' + str(angular_velocity.z) + ' ' +
+                       str(linear_acceleration.x) + ' ' + str(linear_acceleration.y) + ' ' + str(linear_acceleration.z) + '\n')
             
             # Imprimir los datos para verificación (opcional)
             print(t, 

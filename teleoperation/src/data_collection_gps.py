@@ -37,11 +37,12 @@ if __name__ == "__main__":
             altitude = gps_data.altitude
             position_covariance = gps_data.position_covariance
             
-            # Escribir los datos en el archivo
-            data.write(f"{t} {gps_data.header.stamp} {latitude} {longitude} {altitude} "
-                       f"{position_covariance[0]} {position_covariance[1]} {position_covariance[2]} "
-                       f"{position_covariance[3]} {position_covariance[4]} {position_covariance[5]} "
-                       f"{position_covariance[6]} {position_covariance[7]} {position_covariance[8]}\n")
+            data.write(str(t) + ' ' + str(gps_data.header.stamp) + ' ' +
+                       str(latitude) + ' ' + str(longitude) + ' ' + str(altitude) + ' ' +
+                       str(position_covariance[0]) + ' ' + str(position_covariance[1]) + ' ' + str(position_covariance[2]) + ' ' +
+                       str(position_covariance[3]) + ' ' + str(position_covariance[4]) + ' ' + str(position_covariance[5]) + ' ' +
+                       str(position_covariance[6]) + ' ' + str(position_covariance[7]) + ' ' + str(position_covariance[8]) + '\n')
+            
             
             # Imprimir los datos para verificación (opcional)
             print(t, latitude, longitude, altitude, 

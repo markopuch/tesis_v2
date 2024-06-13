@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy
 import cv2
 import numpy as np
@@ -35,13 +35,12 @@ if __name__ == '__main__':
     imgprocces = Cam(topic_name2)
     
     # Definir el objeto VideoWriter
-    # Obtener el ancho y alto de los fotogramas de la cámara
+    # Obtener el ancho y alto de los fotogramas de la camara
     frame_width = 1920
     frame_height = 1080
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     timestamp = time.strftime("%Y%m%d_%H%M%S")
     out = cv2.VideoWriter(f'video_{timestamp}.avi', fourcc, 20.0, (frame_width, frame_height))
-    out2 = cv2.VideoWriter(f'videoprocessed_{timestamp}.avi', fourcc, 20.0, (frame_width, frame_height))
 
     # Frecuencia del bucle principal
     freq = 10
@@ -58,8 +57,6 @@ if __name__ == '__main__':
                 try:
                     # Escribir el frame en el archivo de video
                     out.write(I)
-                    # Escribir el frame en el archivo de video
-                    out2.write(I2)
                     
                 except CvBridgeError as e:
                     rospy.logdebug(e)

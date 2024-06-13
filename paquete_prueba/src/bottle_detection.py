@@ -52,7 +52,7 @@ def bottle_confirmed(I,count_ones,count_zeros,start_time):
         flag=1
     else:
         flag=0
-        if count_ones != 0:  # ajusta estos números según tus necesidades
+        if count_ones != 0:  # ajusta estos numeros segun tus necesidades
             count_zeros += 1
             msg=True
             if start_time is None:
@@ -82,11 +82,11 @@ if __name__ == '__main__':
 	topic_name = '/usb_cam/image_raw'
 	cam = Cam(topic_name)
 
-	# Tópico para publicar una imagen de salida
+	# Topico para publicar una imagen de salida
 	topic_pub = 'image_proccesed'
 	pubimg = rospy.Publisher(topic_pub, Image, queue_size=10)
 
-	# Tópico para publicar un booleano de salida 
+	# Topico para publicar un booleano de salida 
 	topic = 'bottle_confirmation' 
 	pub = rospy.Publisher(topic, Bool, queue_size=1)
 	# Creacion de una instancia (vacia) del mensaje
@@ -108,14 +108,14 @@ if __name__ == '__main__':
 	rospy.logdebug("Starting image processing node")
 	while not rospy.is_shutdown():
 		timestamp = time.strftime("%H%M%S")
-		# Obtener la imagen del tópico de ROS en formato de OpenCV
+		# Obtener la imagen del topico de ROS en formato de OpenCV
 		I = cam.get_image()
 		try:
 			if len(I.shape) == 3 and I.shape[2] == 3:
-				# Realizar algún tipo de procesamiento sobre la imagen
+				# Realizar algun tipo de procesamiento sobre la imagen
 				I=detection(I)
 				pub_msg.data,count_ones,count_zeros,start_time,flag=bottle_confirmed(I,count_ones,count_zeros,start_time)
-				# publicar la imagen de salida como tópico de ROS
+				# publicar la imagen de salida como topico de ROS
 				pubimg.publish(cam.bridge.cv2_to_imgmsg(I,"mono8"))
 		except CvBridgeError as e:
 			rospy.logdebug(e)
