@@ -2,10 +2,10 @@
 
 <launch>
   <!-- WHEELS -->
-  <include file="$(find roboclaw_node)/launch/roboclaw.launch"/>
+  <include file="$(find paquete_prueba)/launch/roboclaw.launch"/>
 
   <!-- MECHANISM -->
-  <include file="$(find roboclaw_node)/launch/roboclaw_mechanism.launch"/>
+  <include file="$(find paquete_prueba)/launch/roboclaw_mechanism.launch"/>
 
   <!-- IMU --> 
   <include file="$(find paquete_prueba)/launch/imu.launch"/>

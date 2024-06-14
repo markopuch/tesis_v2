@@ -15,7 +15,7 @@ class SuscriptorGPS(object):
 
 if __name__ == "__main__":
     try:
-        rospy.init_node('node_datacollection_gps_pc')  # Inicializar el nodo
+        rospy.init_node('node_datacollection_gps')  # Inicializar el nodo
         
         path = "/home/utec/data_gps.txt"
         data = open(path, "w")
