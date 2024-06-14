@@ -29,9 +29,9 @@ def detection(I,kernel=35,th=140,kernel2=7,iter=5):
 	gauss_filter = cv2.GaussianBlur(gray,(kernel,kernel),5)
 	
 	# Crop the image
-	height = 880
-	top=400
-	polygons = np.array([[(250, height), (1500, height), (1200,top),(400, top)]])
+	height = 1020
+	top=600
+	polygons = np.array([[(250, height), (1500, height), (1250,top),(400, top)]])
 	roi = np.zeros_like(gauss_filter)
 	cv2.fillPoly(roi, polygons, 255)
 	mask_roi=cv2.bitwise_and(gauss_filter, roi)

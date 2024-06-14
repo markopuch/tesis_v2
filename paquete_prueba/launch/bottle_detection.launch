@@ -5,6 +5,9 @@
     <node pkg="paquete_prueba" type="bottle_detection.py" name="bottle_detection" output="screen">
     </node>
 
+    <node pkg="paquete_prueba" type="square.py" name="video_square" output="screen">
+    </node>
+
     <node pkg="paquete_prueba" type="video_ros_record.py" name="video_record" output="screen">
     </node>
 

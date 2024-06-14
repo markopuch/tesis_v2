@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import rospy
 import cv2
 import numpy as np
@@ -32,11 +32,12 @@ if __name__ == '__main__':
     
     # Definir el objeto VideoWriter
     # Obtener el ancho y alto de los fotogramas de la camara
-    frame_width = 640
-    frame_height = 480
+    frame_width = 1920
+    frame_height = 1080
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     timestamp = time.strftime("%Y%m%d_%H%M%S")
-    out = cv2.VideoWriter('video.avi', fourcc, 20.0, (frame_width, frame_height))
+    name="video_"+timestamp+".avi"
+    out = cv2.VideoWriter(name, fourcc, 20.0, (frame_width, frame_height))
 
     # Frecuencia del bucle principal
     freq = 10
