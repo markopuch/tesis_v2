@@ -32,11 +32,11 @@ if __name__ == '__main__':
     
     # Definir el objeto VideoWriter
     # Obtener el ancho y alto de los fotogramas de la camara
-    frame_width = 1920
-    frame_height = 1080
+    frame_width = 640
+    frame_height = 480
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     timestamp = time.strftime("%Y%m%d_%H%M%S")
-    out = cv2.VideoWriter(f'video_{timestamp}.avi', fourcc, 20.0, (frame_width, frame_height))
+    out = cv2.VideoWriter('video.avi', fourcc, 20.0, (frame_width, frame_height))
 
     # Frecuencia del bucle principal
     freq = 10
