@@ -64,7 +64,7 @@ if __name__ == "__main__":
         device_port = dev_name.split("tty")[1]
 
         path = "/home/utec/data_"
-        path = path + f"{device_port}"+ ".txt"
+        path = path + device_port+ ".txt"
         data=open(path,"w")
         
         if address > 0x87 or address < 0x80:
@@ -98,7 +98,7 @@ if __name__ == "__main__":
 
         #VALUES KINEMATIC
         MAX_SPEED = float(rospy.get_param("~max_speed", "1.0"))
-        TICKS_PER_METER = float(rospy.get_param("~tick_per_meter", "24844,8"))
+        TICKS_PER_METER = float(rospy.get_param("~tick_per_meter", "24844.8"))
         BASE_WIDTH = float(rospy.get_param("~base_width", "0.315"))
 
         rospy.sleep(1)
